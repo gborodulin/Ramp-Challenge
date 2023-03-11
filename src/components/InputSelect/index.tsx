@@ -30,6 +30,19 @@ export function InputSelect<TItem>({
     [consumerOnChange]
   )
 
+  const getDropdownPosition: GetDropdownPositionFn = (target) => {
+    if (target instanceof Element) {
+      const { top, left } = target.getBoundingClientRect()
+      const { scrollY } = window
+      return {
+        top: top,
+        left,
+      }
+    }
+
+    return { top: 0, left: 0 }
+  }
+
   return (
     <Downshift<TItem>
       id="RampSelect"
@@ -71,7 +84,11 @@ export function InputSelect<TItem>({
                 "RampInputSelect--dropdown-container-opened": isOpen,
               })}
               {...getMenuProps()}
-              style={{ top: dropdownPosition.top, left: dropdownPosition.left }}
+              style={{
+                top: dropdownPosition.top,
+                left: dropdownPosition.left,
+                position: "sticky",
+              }}
             >
               {renderItems()}
             </div>
@@ -115,17 +132,4 @@ export function InputSelect<TItem>({
       }}
     </Downshift>
   )
-}
-
-const getDropdownPosition: GetDropdownPositionFn = (target) => {
-  if (target instanceof Element) {
-    const { top, left } = target.getBoundingClientRect()
-    const { scrollY } = window
-    return {
-      top: scrollY + top + 63,
-      left,
-    }
-  }
-
-  return { top: 0, left: 0 }
 }
