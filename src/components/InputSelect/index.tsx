@@ -35,7 +35,7 @@ export function InputSelect<TItem>({
       const { top, left } = target.getBoundingClientRect()
       const { scrollY } = window
       return {
-        top: top,
+        top: scrollY + top + 63,
         left,
       }
     }
